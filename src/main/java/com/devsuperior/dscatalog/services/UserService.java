@@ -12,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,15 +25,9 @@ public class UserService {
     private UserRepository repository;
 
     @Transactional(readOnly = true)
-    public Page<UserDTO> findAllPaged(PageRequest pageRequest){
-        Page<User> list = repository.findAll(pageRequest);
+    public Page<UserDTO> findAllPaged(Pageable pageable){
+        Page<User> list = repository.findAll(pageable);
         return list.map(x -> new UserDTO(x));
-
-      /*  List<UserDTO> listDto = new ArrayList<>();
-        for (User cat : list){
-            listDto.add(new UserDTO(cat));
-        }
-        return listDto;*/
     }
 
     @Transactional(readOnly = true)
